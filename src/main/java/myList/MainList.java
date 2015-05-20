@@ -1,31 +1,31 @@
 package myList;
 
-import java.util.ArrayList;
-
 /**
  * Created by Yuliya on 16.05.2015.
  */
 public class MainList {
     public static void main(String[] args) {
 
-        MyList<Integer> myList = new MyList();
+        DynamicStringList myList = new DynamicStringList();
 
-        Integer x = 5;
-        Integer y = 6;
+        myList.add("first");
+        myList.add("second");
+        myList.add("third");
+        myList.add("fourth");
 
-        myList.add(4);
-        myList.add(5);
-        myList.add(1);
-        myList.add(9);
+        System.out.println("original size:______" + myList.size());
+        System.out.println("empty:______________" + myList.empty());
+        System.out.println("get last:___________" + myList.get());
+        System.out.println("get on the index:___" + myList.get(2));
+        System.out.println("remove last:________" + myList.remove());
+        System.out.println("remove on the index:" + myList.remove(0));
 
-        System.out.println(myList.size());
-        System.out.println(myList.empty());
-        myList.remov(y);
-        myList.remov(x);
-        myList.remov(0);
-        System.out.println(myList.toString());
-        System.out.println(myList.contains(4));
-        System.out.println(myList.contains(9));
+        System.out.println("toString:___________" + myList.toString());
+        System.out.println("contains 'third':___" + myList.contains("third"));
+        System.out.println("contains '444':_____" + myList.contains("444"));
+
+        System.out.println("delete:_____________" + myList.delete());
+        System.out.println("delete size:________" + myList.size());
 
     }
 }

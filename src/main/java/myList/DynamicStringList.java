@@ -6,21 +6,21 @@ import java.util.Objects;
 /**
  * Created by Yuliya on 16.05.2015.
  */
-public class MyList<T> {
+public class DynamicStringList implements SimpleList {
 
-    private static Object[] EMPTY_LIST = {};
+    private static String[] EMPTY_LIST = {};
 
-    private static Object[] elementList;
+    private static String[] elementList;
 
     private int size;
 
-    public MyList() {
+    public DynamicStringList() {
         this.elementList = EMPTY_LIST;
         this.size = elementList.length;
     }
 
-    public MyList(int size) {
-        this.elementList = new Object[size];
+    public DynamicStringList(int size) {
+        this.elementList = new String[size];
         this.size = size;
     }
 
@@ -32,11 +32,11 @@ public class MyList<T> {
         return this.size() == 0;
     }
 
-    public void add(T element) {
+    public void add(String element) {
 
         int newSize = this.size + 1;
 
-        Object[] tempList = new Object[newSize];
+        String[] tempList = new String[newSize];
 
         if (this.size > 0) {
             for (int i = 0; i < size; i++) {
@@ -44,48 +44,64 @@ public class MyList<T> {
             }
         }
 
-        tempList[newSize - 1] = element;
+        tempList[newSize - 1] = (String) element;
+
         this.elementList = tempList;
         this.size = newSize;
     }
 
-    public void remov(Object element) {
+    public String get() {
+        if (!empty()) {
+            return elementList[size - 1];
+        } else {
+            return "";
+        }
+    }
 
-        if (contains(element)) {
+    public String get(int id) {
+        if (validateIndex(id)) {
+            return elementList[id];
+        } else {
+            return "";
+        }
+    }
+
+    public String remove() {
+        String deleted = "";
+        if (!empty()) {
 
             int newSize = this.size - 1;
 
-            Object[] tempList = new Object[newSize];
+            String[] tempList = new String[newSize];
 
             int iTemp = 0;
-            for (int i = 0; i < size; i++) {
-                if (elementList[i].equals(element)) {
-                    continue;
-                } else {
-                    tempList[iTemp] = elementList[i];
-                    iTemp++;
-                }
+            for (int i = 0; i < newSize; i++) {
+                tempList[iTemp] = elementList[i];
+                iTemp++;
             }
-
+            deleted = elementList[size - 1];
             this.elementList = tempList;
             this.size = newSize;
         } else {
-            System.out.println("remov: element not found");
+            System.out.println("remove: element not found");
         }
-
+        return deleted;
     }
 
-    public void remov(int index) {
+    public String remove(int index) {
+
+        String deleted = "";
 
         if (validateIndex(index)) {
 
             int newSize = this.size - 1;
 
-            Object[] tempList = new Object[newSize];
+            String[] tempList = new String[newSize];
 
             int iTemp = 0;
             for (int i = 0; i < size; i++) {
                 if (i == index) {
+                    deleted = elementList[i];
                     continue;
                 } else {
                     tempList[iTemp] = elementList[i];
@@ -96,8 +112,17 @@ public class MyList<T> {
             this.elementList = tempList;
             this.size = newSize;
         }
+
+        return deleted;
     }
 
+    public boolean delete(){
+        this.elementList = EMPTY_LIST;
+        this.size = 0;
+        return true;
+    }
+
+    @Override
     public String toString() {
 
         String result = "";
@@ -106,9 +131,9 @@ public class MyList<T> {
             result = "[]";
         } else {
             for (int i = 0; i < size; i++) {
-                if(elementList[i] == null) {
+                if (elementList[i] == null) {
                     result = result + "[null]";
-                }else {
+                } else {
                     result = result + "[" + elementList[i].toString() + "]";
                 }
             }
@@ -143,9 +168,10 @@ public class MyList<T> {
         if (ind >= 0 && ind < size) {
             result = true;
         } else {
-            System.out.println("remov: index is incorrect");
+            System.out.println("index is incorrect");
         }
 
         return result;
     }
+
 }
